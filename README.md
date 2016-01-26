@@ -1,2 +1,4 @@
 # cmsi488
-Repo for Toal's Compilers class
+Private Repo for Toal's Compilers class
+
+* Homework1 -- Due date TBD
