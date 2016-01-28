@@ -2,7 +2,7 @@
 
 prime is (n) ->
     for i in (0...n/2):
-        if eq n%i, 0:
+        if eq n % i, 0:
             spit nah
         i++
     spit yah
@@ -23,3 +23,35 @@ if eq x,y,z,u:
     spit yah
 else:
     spit nah
+
+
+
+if (eq x,y,z,u,meh or x > -3):          // We can have blocks for doing multiple things in
+    spit yah 
+else:
+    meh is "wat"
+    spit nah
+
+
+//string concatenation
+
+stringOne is "sup"
+stringTwo is "bruh"
+banana is 10
+
+stringThree is "sup \(StringTwo) here's \(banana) dollars"
+
+print(stringThree)
+yaw(stringThree)
+
+
+// this would print "sup bruh here's 10 dollars"
+
+
+//relational operators
+
+gt 10,11,11,1,1,1,1
+lt 10,12,1,1,1,1,1
+geq 11,11,1,1,1,1,1
+leq 12,12,1,1,1,1,1
+eq 10,10
