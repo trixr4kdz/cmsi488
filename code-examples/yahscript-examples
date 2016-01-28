@@ -65,8 +65,8 @@ sample((x) -> print(x))
 //Prime Function
 
 prime is (n) ->
-    for i in (0...n/2):
-        if eq n % i, 0:
+    for i in (0...n/2):         //[0..2] exclusive
+        if eq n % i, 0:         //[0...2] inclusive
             spit nah
         i++
     spit yah
