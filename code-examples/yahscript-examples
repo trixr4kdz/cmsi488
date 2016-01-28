@@ -1,0 +1,25 @@
+//Prime Function
+
+prime is (n) ->
+    for i in (0...n/2):
+        if eq n%i, 0:
+            spit nah
+        i++
+    spit yah
+
+
+
+//displaying use of our equals operator that can do multiple comparisons
+
+
+//declaring and assigning to four variables
+x is 1
+y is 2 - 1
+z is 3 - 2
+u is 4 - 3
+
+//if statement and equals operator
+if eq x,y,z,u:
+    spit yah
+else:
+    spit nah
