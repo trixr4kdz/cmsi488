@@ -50,7 +50,19 @@
 
 Abstract syntax tree
 ```
-                
+                    Exp
+                     |
+                    Exp1
+                     |
+                    Exp2
+                  /     \
+                 /       \
+                -        Exp3
+                        /  |  \
+                       /   |   \
+                    Exp4   *    Exp4
+                     |            |  
+                    Exp5        Exp5
 ```
 
 
@@ -58,3 +70,8 @@ Abstract syntax tree
 ```
 
 ```
+
+
+
+
+
