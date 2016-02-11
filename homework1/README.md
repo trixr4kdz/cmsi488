@@ -83,19 +83,14 @@ If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, the abstract syntax tre
 
 #### Problem 3
 
-
-// \d is for decimal digits
-
-id :=  [\p{L}$] (\p{L}$\d_@)*
-numlit :=  ( (0-9)+ (.)? (0-9)* (e (+ | -) (0-9)+)?)
+id :=  [\p{L}$] ([\p{L}$\d_@])*
+numlit :=  ( [0-9]+ (.)? [0-9]* (e (+ | -) [0-9]+)?)
 escape := '\'[\'"rn] |  '\u'([A-Fa-f0-9]{4})
 negatop := '-'
 addop := '+' | '-'
 multiop := '*' | '/'
 factorialop := '!'
 stringlit := '"' + [\p{L}]* + '"' | escape
-
-
 
 Program := [funcall]+ && Exp
 Exp := Exp1 ('if' Exp 'else' Exp)*
@@ -111,10 +106,6 @@ cond := Exp 'if' Exp 'else' Exp
 
 
 #### Problem 4
-
-
-
-
 
 ```
 
