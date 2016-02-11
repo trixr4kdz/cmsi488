@@ -2,44 +2,54 @@
 ```
 {
     "program": {
-        "declare": {
-            "vars": ["x", "y"]
-        },
-        "while": {
-            "minus": {
-                "varref": {
-                    "ref": "y"
-                },
-                "intlit": {
-                    "value": 5
-                }
-            },
+        "block": {
+            
             "declare": {
-                "vars": "y"
+                { "vars": "x" },
+                { "vars": "y" }
             },
-            "read": {
-                "vars": ["x", "y"]
-            },
-            "assign": {
-                "varref": "x",
-                "times": {
-                    "intlit": {
-                        "value": 2
+            
+            "while": {
+                "minus": {
+                    "varref": {
+                        "ref": "y"
                     },
-                    "plus": {
-                        "intlit": {
-                            "value": 3
-                        },
+                    "intlit": {
+                        "value": 5
+                    }
+                },
+                block: {
+                    "declare": {
+                        "vars": "y"
+                    },
+                    "read": {
                         "varref": {
-                            "ref": "y"
+                            { "ref": "x" },
+                            { "ref": "y" }
+                        }
+                    },
+                    "assign": {
+                        "varref": "x",
+                        "times": {
+                            "intlit": {
+                                "value": 2
+                            },
+                            "plus": {
+                                "intlit": {
+                                    "value": 3
+                                },
+                                "varref": {
+                                    "ref": "y"
+                                }
+                            }
                         }
                     }
                 }
-            }
-        },
-        "write": {
-            "intlit": {
-                "value": 5
+            },
+            "write": {
+                "intlit": {
+                    "value": 5
+                }
             }
         }
     }
