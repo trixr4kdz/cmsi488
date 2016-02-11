@@ -77,7 +77,7 @@ If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, it would then appear as
 ```
            -
            |
-	   *
+           *
           / \
          8   5
 ```
