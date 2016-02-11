@@ -59,7 +59,7 @@
 ```
 
 #### Problem 2
-Abstract syntax tree
+Abstract syntax tree for -8 * 5
 ```
                     *
                   /   \
@@ -69,11 +69,9 @@ Abstract syntax tree
 
 
 ````
-So it appears that there could be the problem of writing `x--5` which would then be read as a comment and not have the intended output. It prevents any double negatives as once you are in Exp2, you fall right into optional Exp3 without any extra `-` possibilities. 
+The way the grammar for the expressions is written right now, there is no way to write a double negative (i.e., two negation signs in a row), which would make sense to prevent something like `x--5` to be treated as being a comment. The grammar would automatically detect that the user is writing a comment and not an expression once `--` is written since there is no way to get back to Exp1/Exp2 from Exp3 once the user types in one `-`.
 
-If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, it would then appear as:
-
-
+If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, the abstract syntax tree would then appear as:
 ```
            -
            |
