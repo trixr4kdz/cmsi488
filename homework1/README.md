@@ -83,6 +83,7 @@ If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, the abstract syntax tre
 
 #### Problem 3
 
+```
 id :=  [\p{L}$] ([\p{L}$\d_@])*
 numlit :=  ( [0-9]+ (.)? [0-9]* (e (+ | -) [0-9]+)?)
 escape := '\'[\'"rn] |  '\u'([A-Fa-f0-9]{4})
@@ -103,7 +104,7 @@ literals := numlit | stringlit | id | funcall | Exp
 funcdec := 'fun' id '(' (id (',' id)*)* ')' '{' (Exp;)+ '}'
 funcall := id '('(Exp+(','Exp)*)* ')'
 cond := Exp 'if' Exp 'else' Exp
-
+```
 
 #### Problem 4
 
