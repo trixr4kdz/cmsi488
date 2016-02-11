@@ -88,29 +88,28 @@ If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, it would then appear as
 
 // \d is for decimal digits
 
-id :=  [a-zA-Z$]([a-zA-Z$ \d _ @])*
-numlit :=  ([0-9]+.?[0.9]* && (e[0-9]+)?)
-stringlit := " + stringLit + ( exitOnes |  \u[A-F0-9]{4} )
-
-
+id :=  [\p{L}$] (\p{L}$\d_@)*
+numlit :=  ( (0-9)+ (.)? (0-9)* (e (+ | -) (0-9)+)?)
+escape := '\'[\'"rn] |  '\u'([A-Fa-f0-9]{4})
+negatop := '-'
+addop := '+' | '-'
+multiop := '*' | '/'
+factorialop := '!'
+stringlit := '"' + [\p{L}]* + '"' | escape
 
 
 
 Program := [funcall]+ && Exp
-Exp := Exp1  (???) 
-Exp1 := Exp2 if (  ) ???
-Exp2 := Exp3 addop ???
-Exp3 := Exp4 multiop ???
-Exp4 := Exp5 negation ???
-Exp5 := Exp6 Factorial ???
-Exp6 := function call | '(' Exp ')' | Literal | id***(wrong probably)
-
-
-
-literals := numlit | stringlit | id | funcall  | Exp
-funcdec := 'fun' id ( ([id]+(, id)*)* ) '{' [Exp;]+ '}'
-funcall := id '('[Exp+(','Exp)*]* ')'
-cond := Exp 'if' Exp 'else' Exp // middle Exp is probably something else since it's a conditional if .... !?!?!?!
+Exp := Exp1 ('if' Exp 'else' Exp)*
+Exp1 := Exp2 (addop Exp2)*
+Exp2 := Exp3 (multiop Exp3)*
+Exp3 := (negatop)* Exp3
+Exp4 := Exp5(factorialop)*
+Exp5 := '(' Exp ')' | literals
+literals := numlit | stringlit | id | funcall | Exp
+funcdec := 'fun' id '(' (id (',' id)*)* ')' '{' (Exp;)+ '}'
+funcall := id '('(Exp+(','Exp)*)* ')'
+cond := Exp 'if' Exp 'else' Exp
 
 
 #### Problem 4
