@@ -66,8 +66,23 @@ Abstract syntax tree
                  -     \
                 /       \
                8         5
-````
 
+
+````
+So it appears that there could be the problem of writing `x--5` which would then be read as a comment and not have the intended output. It prevents any double negatives as once you are in Exp2, you fall right into optional Exp3 without any extra `-` possibilities. 
+
+If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, it would then appear as:
+
+
+```
+           -
+           |
+	   *
+          / \
+         8   5
+```
+
+         
 
 #### Problem 4
 
