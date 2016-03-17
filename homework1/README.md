@@ -1,3 +1,5 @@
+# Homework 1
+
 #### Problem 1
 ```
 {
@@ -69,7 +71,7 @@ Abstract syntax tree for -8 * 5
 ````
 The way the grammar for the expressions is written right now, there is no way to write a double negative (i.e., two negation signs in a row), which would make sense to prevent something like `x--5` to be treated as being a comment. The grammar would automatically detect that the user is writing a comment and not an expression once `--` is written since there is no way to get back to Exp1/Exp2 from Exp3 once the user types in one `-`.
 
-If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, it would then appear as:
+If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, the abstract syntax tree would then appear as:
 ```
            -
            |
@@ -80,29 +82,34 @@ If we were to move the `'-'?` from Exp2 to Exp5 in Exp4, it would then appear as
 
 #### Problem 3
 
-// \d is for decimal digits
-
-id :=  [a-zA-Z$]([a-zA-Z$ \d _ @])*
-numlit :=  ([0-9]+.?[0.9]* && (e[0-9]+)?)
-stringlit := " + stringLit + ( exitOnes |  \u[A-F0-9]{4} )
-
-
-
-
+```
+id :=  [\p{L}$] ([\p{L}$\d_@])*
+numlit :=  ( [0-9]+ (.)? [0-9]* (e (+ | -) [0-9]+)?)
+escape := '\'[\'"rn] |  '\u'([A-Fa-f0-9]{4})
+negatop := '-'
+addop := '+' | '-'
+multiop := '*' | '/'
+factorialop := '!'
+stringlit := '"' + [\p{L}]* + '"' | escape
 
 Program := [funcall]+ && Exp
-Exp := Exp1  (???) 
-Exp1 := Exp2 if (  ) ???
-Exp2 := Exp3 addop ???
-Exp3 := Exp4 multiop ???
-Exp4 := Exp5 negation ???
-Exp5 := Exp6 Factorial ???
-Exp6 := function call | '(' Exp ')' | Literal | id***(wrong probably)
+Exp := Exp1 ('if' Exp 'else' Exp)*
+Exp1 := Exp2 (addop Exp2)*
+Exp2 := Exp3 (multiop Exp3)*
+Exp3 := (negatop)* Exp3
+Exp4 := Exp5(factorialop)*
+Exp5 := '(' Exp ')' | literals
+literals := numlit | stringlit | id | funcall | Exp
+funcdec := 'fun' id '(' (id (',' id)*)* ')' '{' (Exp;)+ '}'
+funcall := id '('(Exp+(','Exp)*)* ')'
+cond := Exp 'if' Exp 'else' Exp
+```
 
-
-### Problem 4
+#### Problem 4
 
 ```
+
+
                                                                                                                            +-----------+
                                                                                                                            |           |
                                                                                                                            |  Program  |
@@ -129,17 +136,17 @@ Exp6 := function call | '(' Exp ')' | Literal | id***(wrong probably)
              |                               |                                      +----+---+                          |                              |   ||    |                        |          +---------------+    |                                          |                                  |                                            |           |
              |                               |                                      |  write |                     +----+----+                    +----+---------+----+                   |                               |                                          |                              +---+----+                                       +-----+-----+
         +---------+                      +---+---+                                  +--------+                     |    *    |                    |                   |                   |                            +--+--+                                  +----+---+                      +---+   =    +--------------------+                        |
-        |    ^    |                      |   !   |                                                                 +---------+                    |                   |               +---+----+                 +-----+ =   +------------+                     | false  |                      |   +--------+                    |                        |
+        |    >    |                      |   !   |                                                                 +---------+                    |                   |               +---+----+                 +-----+ =   +------------+                     | false  |                      |   +--------+                    |                        |
     +---+----+----+--+                   +---+---+                                                              +---+       +-----+           +---+---+           +---+---+       +---+ while  +---+             |     +-----+            |                     +--------+                      |                                 |                  +-----+-----+
     |                |                       |                                                                  |                 |           |   !   |           | there |       |   +--------+   |             |                        |                                                     |                                 |                  |   up      |
     |                |                       |                                                             +----+----+            |           +---+---+           +-------+       |                |         +---+---+               +----+--+                                                  |                                 |                  |           |
-+---+---+       +----+---+              +----+-----+                                                       |     -   |        +---+---+           |                               |                |         |  x    |         +-----+   &   +------------+                                 +---+----+                       +----+--+               +-----------+
++---+---+       +----+---+              +----+-----+                                                       |  negate |        +---+---+           |                               |                |         |  x    |         +-----+   &   +------------+                                 +---+----+                       +----+--+               +-----------+
 |   x   |       |    2   |       +------+fun call  +-------------+                                         +----+----+        |   q   |           |                               |                |         +-------+         |     +-------+            |                              +--+   .    +----+             +----+   .   +---------+
 +-------+       +--------+       |      +----------+             |                                              |             +-------+       +---+------+                     +--+----+      +----+---+                       |                          |                              |  +--------+    |             |    +-------+         |
                                  |                               |                                          +---+---+                         |   here   |                     |close  |      | fun call                       |                          |                              |                |             |                      |
                             +----+-----+                    +----+----+                                     |   3   |                         +----------+                     +-------+      +----+---+                       |                          |                              |                |             |                      |
                         +---+    .     +--+              +--+fun call +---+                                 +-------+                                                                              |                       +---+---+                  +---+---+                          |                |        +----+-----+            +---+----+
-                        |   +----------+  |              |  +---------+   |                                                                                                                    +---+-------+         +-----+   >>> +---+           +--+    *  +---+                      ++              ++        |  person  |         +--+   []   +-+
+                        |   +----------+  |              |  +---------+   |                                                                                                                    +---+-------+         +-----+       +---+           +--+    *  +---+                      ++              ++        |  person  |         +--+   []   +-+
                         |                 |        +-----+-+         +----+-----+                                                                                                              | tryHarder |         |     +-------+   |           |  +-------+   |                   +-------+       +--------+   +----------+         |  +--------+ |
                    +----+-----+    +------+---+    | f     |         |    x     |                                                                                                              +-----------+         |                 |           |              |                 +-+  []   +-+    ++fun call+--+                     |             |
                    |   String |    |  matches |    +-------+         +----------+                                                                                                                                    |                 |           |              |                 +---------+ |    +---------+  |                     |             |
@@ -148,7 +155,10 @@ Exp6 := function call | '(' Exp ')' | Literal | id***(wrong probably)
                                                                                                                                                                                                                 |    x     |     |    3     |  |   2   |       |  x   |        +----+-+    +----+-+  +-------+  +-+------+          +------+    +------+
                                                                                                                                                                                                                 +----------+     +----------+  +-------+       +------+        |  q   |    |  4   |  |  g    |  |   6    |
                                                                                                                                                                                                                                                                                +------+    +------+  +-------+  +--------+
+<<<<<<< HEAD
                                                                                                                                                                                                                                                     
                                                                                                                                                                                                                                                     ```
 
 l
+=======
+>>>>>>> 13acd6f5fd977009ced36e32fa62cb2a9184b5bd
