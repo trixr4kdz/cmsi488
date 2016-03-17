@@ -5,24 +5,24 @@
 #### (a)
 Regex: [A-Z][0-9][A-Z] [0-9][A-Z][0-9]
 Function: 
+var canada = function(string) {
+    var re = /[A-Z][0-9][A-Z] [0-9][A-Z][0-9]/;
+    return re.test(string);
+}
 
 #### (b)
-^(([\d]+)([.][\d]+)?((E[-+]?[\d]+)|(([_][\d]+)?)*))$        This is for decimal literals
-
-([\dA-F][\dA-F#]*)([.][\dA-F#]+)?((E[-+][\dA-F#]+)|(([_][\dA-F#]+)?)*)|^(([\d]+)([.][\d]+)?((E[-+]?[\d]+)|(([_][\d]+)?)*))$|^#$
-
-(^[\dA-F]+#?[\dA-F]*#?)([.][\dA-F]+#?)?((([_][\dA-F]+#?)?)|(E[-+][\dA-F]+)*$)|^#$
-|(^([\d]+)([.][\d]+)?((E[-+]?[\d]+)|(([_][\d]+)?)*)$)|^#$
-
-(^[\dA-F]+#?[\dA-F]*#?)([.][\dA-F]+#?)?((([_][\dA-F]+#?)?)|(E[-+][\dA-F]+))*$|^#$           \\ THis is for the most part the based literals
-
-(^([0-9]+(#[0-9].[0-9]+(_[0-9]*)*)*#[Ee][-+]?[0-9]+)$) The rest of the based literal
+Regex: (^\d+((\_\d)\d*)?#[\dA-F]+(\_[\dA-F]+)*((\.[\dA-F]+(\_[\dA-F]+)*)?#(E[-+]?\d+)?)?)$|(^(([\d]+)([.][\d]+)?((E[-+]?[\d]+)|(([_][\d]+)?)*))$)
+Function: 
+var ada = function(string) {
+    var re = /(^\d+((\_\d)\d*)?#[\dA-F]+(\_[\dA-F]+)*((\.[\dA-F]+(\_[\dA-F]+)*)?#(E[-+]?\d+)?)?)$|(^(([\d]+)([.][\d]+)?((E[-+]?[\d]+)|(([_][\d]+)?)*))$)/;
+    return re.test(string);
+}
 
 #### (e)
 Regex: /((^(?![a-zA-z][Oo][Ss]$))([a-zA-Z])*$)/
 Function:
 var noThreeLettersEndingWithOS = function(string) {
-    var re = /(^(?![a-zA-z][Oo][Ss]$))([a-zA-Z])*/g;
+    var re = /(^(?![a-zA-z][Oo][Ss]$))([a-zA-Z])*/;
     return re.test(string);
 }
 
