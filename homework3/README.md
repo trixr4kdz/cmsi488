@@ -98,6 +98,19 @@ Factor     --> '(' Exp ')' {Factor.value := Exp.value} | id {Factor.value := id.
 ```
 
 ### Problem 4
+The following is a roadmap to help make the attribute grammar:
+```
+Polynomial ::= ('-')? Term (('+' | '-') Term)*
+Term       ::= IntLit? 'x' ('^' ('-')? IntLit)? | IntLit
 ```
 
+Then the corresponding attribute grammar would be:
+```
+Polynomial --> ('-' {positive := false})? Term {Polynomial.value := Term.value}
+                  (('+' {binop.text := '+'}| '-' {binop.text := '-'}) 
+                  Term {Polynomial.value := binop(Polynomial.value, Term.value)})*
+                  {Polynomial.value := positive? Polynomial.value : Polynomial.value}
+Term       --> {c := 1, e := 1} (IntLit {c := IntLit.value})? 'x' ('^' ('-' {e := -1})?
+                  IntLit {e *= -IntLit.value}? {Term.value := product(c, e) • 'x^' • pred(e)}
+                  | IntLit {Term.value := IntLit.value}
 ```
