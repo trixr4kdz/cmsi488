@@ -65,12 +65,13 @@
 
 ### Problem 2
 
-##### (a) The grammar is not LL(1) since if at an id, the production can be expanded to either just the id or to a declaration/assignment (or whatever the ':='' Exp does). In other words, the Exp can be Exp --> Term Termtail --> Factor '' --> id, or id ':=' Exp.
+##### (a) The grammar is not LL(1) since if at an id, the production can be expanded to either just the id or to a declaration/assignment (or whatever the ':='' Exp does). In other words, the Exp can be Exp --> Term TermTail --> Factor '' --> id, or Exp --> id ':=' Exp.
+
 
 ##### (b) To make it LL(1), we can split Exp into 2 levels of expression such that we have: 
 ```
-Exp ::= id ':=' Exp1
-Exp1 ::= Term Termtail
+Exp  ::=  id ':=' Exp1
+Exp1 ::=  Term Termtail
 ```
 
 ##### (c) There doesn't seem to be much difference between this grammar and a PEG (except for the notation) so the PEG equivalent of this grammar is:
@@ -84,7 +85,16 @@ Factor      <--  '(' Exp ')' / id
 
 ### Problem 3
 ```
-
+Exp        --> id ':=' Exp1 {Exp.value := id.val := Exp1.value}
+Exp1       --> Term {TermTail_2.accumulate := TermTail.accumulate + Term.value} 
+                  TermTail_2 {TermTail.value := TermTail_2.value}
+TermTail   --> ('+' Term {TermTail_2.accumulate := TermTail.accumulate + Term.value} 
+                  TermTail_2 {TermTail.value := TermTail_2.value})?
+                  {TermTail.value := TermTail.accumulate}
+Term       --> Factor {FactorTail.accumulate := Factor.value} FactorTail {Term.value = FactorTail.value}
+FactorTail --> ('*' Factor {FactorTail_2.accumulate := FactorTail.accumulate * Factor.value} 
+                  FactorTail_2 {FactorTail.value := FactorTail_2.value})?
+Factor     --> '(' Exp ')' {Factor.value := Exp.value} | id {Factor.value := id.value}
 ```
 
 ### Problem 4
