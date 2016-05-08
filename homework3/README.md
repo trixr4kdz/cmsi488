@@ -11,17 +11,19 @@
              /     \ 
             A       M
            / \      |
-         'a' ''     S
-                  /   \
-                 /     \
-                A       ''
-              / |  \
-             /  |   \    
+         'a'  E     S
+              |   /   \
+             ''  /     \
+                A       E
+              / |  \    |
+             /  |   \   '' 
             /   |    \     
           'b'   A     A
                / \    | \
               /   \   |  \
-            'a'   '' 'a'  ''
+            'a'    E 'a'  E
+                   |      |
+                   ''     ''
 ```
 
 ##### (c) The grammar is not LL(1) because when you are at A ::= 'a' E, the production rule E can then become either E ::= 'a' B or the empty string. 
@@ -44,8 +46,8 @@
                 |     /   \                                      /|       | \ 
                ''    /     \                                    / |       |  \
                     A       M                                 'a' B       A    M
-                   / \                                           /|      / \   |   
-                  /   \                                         / |     /   \  ''       
+                   / \      |                                    /|      / \   |   
+                  /   \     ''                                  / |     /   \  ''       
                  'a'   E                                      'b' E   'a'   E
                         \                                        / \         |
                          \                                      /   \        ''
@@ -86,14 +88,19 @@ Factor      <--  '(' Exp ')' / id
 ### Problem 3
 ```
 Exp        --> id ':=' Exp1 {Exp.value := id.val := Exp1.value}
+
 Exp1       --> Term {TermTail_2.accumulate := TermTail.accumulate + Term.value} 
                   TermTail_2 {TermTail.value := TermTail_2.value}
+
 TermTail   --> ('+' Term {TermTail_2.accumulate := TermTail.accumulate + Term.value} 
                   TermTail_2 {TermTail.value := TermTail_2.value})?
                   {TermTail.value := TermTail.accumulate}
+
 Term       --> Factor {FactorTail.accumulate := Factor.value} FactorTail {Term.value = FactorTail.value}
+
 FactorTail --> ('*' Factor {FactorTail_2.accumulate := FactorTail.accumulate * Factor.value} 
                   FactorTail_2 {FactorTail.value := FactorTail_2.value})?
+                  
 Factor     --> '(' Exp ')' {Factor.value := Exp.value} | id {Factor.value := id.value}
 ```
 
@@ -110,6 +117,7 @@ Polynomial --> ('-' {positive := false})? Term {Polynomial.value := Term.value}
                   (('+' {binop.text := '+'}| '-' {binop.text := '-'}) 
                   Term {Polynomial.value := binop(Polynomial.value, Term.value)})*
                   {Polynomial.value := positive? Polynomial.value : Polynomial.value}
+
 Term       --> {c := 1, e := 1} (IntLit {c := IntLit.value})? 'x' ('^' ('-' {e := -1})?
                   IntLit {e *= -IntLit.value}? {Term.value := product(c, e) • 'x^' • pred(e)}
                   | IntLit {Term.value := IntLit.value}
